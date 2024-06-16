@@ -52,7 +52,7 @@ def mtu_discovering(dest, verbose):
         else:
             h = mid
 
-    print(f'lowest MTU is {l}')
+    print(f'lowest MTU is {l + 28}')
     sock.close()
 
 if __name__ == '__main__':
