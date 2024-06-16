@@ -4,6 +4,7 @@ import psutil
 import pythonping
 
 LOWEST_MTU = 68
+HEADERS = 28
 
 def is_working(host, size, verbose):
     ret: pythonping.Res = pythonping.ping(host, size=size, df=True, count=1, timeout=5)._responses[0]
@@ -44,7 +45,7 @@ def mtu_discovering(dest, verbose):
         exit(1)
 
     l = LOWEST_MTU
-    h = interface_mtu + 1
+    h = interface_mtu + 1 - HEADERS
     while h - l > 1:
         mid = (h + l) // 2
         if is_working(dest, mid, verbose):
@@ -52,7 +53,7 @@ def mtu_discovering(dest, verbose):
         else:
             h = mid
 
-    print(f'lowest MTU is {l + 28}')
+    print(f'lowest MTU is {l + HEADERS}')
     sock.close()
 
 if __name__ == '__main__':
